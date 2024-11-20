@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务发布页面</title>
+    <style>
+		.logo-container {
+		    text-align: center;
+		    margin-bottom: 20px;
+		}
+		.logo-container img {
+		    width: 150px;
+		    height: 150px;
+		    object-fit: cover;
+		    border-radius: 4px;
+		}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .input-group input,
+        .input-group button {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .input-group button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+        .product-section {
+            margin-top: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        .add-product-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+        .add-product-btn:hover {
+            background-color: #218838;
+        }
+        .product {
+            border: 1px solid #f0f0f0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        .product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+        .product input {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .product button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .product button:hover {
+            background-color: #c82333;
+        }
+        .back-btn, .footer-number input {
+            margin-top: 20px;
+            padding: 10px 18px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .back-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            font-size: 22px;
+            color: black;
+            margin-top: 40px;
+        }
+        .footer-number {
+            text-align: right;
+            font-size: 14px;
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            color: #777;
+        }
+        .footer-number input {
+            width: 120px;
+            border: 1px solid #ddd;
+            margin-left: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            text-align: center; /* 居中对齐表格内容 */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            vertical-align: middle; /* 垂直居中 */
+            font-size: 14px;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+        td img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+		
+		
+        <h1>任务发布页面</h1>
+
+        <!-- Logo 上传区域 -->
+        <div class="input-group logo-upload">
+            <label for="logo">上传Logo：</label>
+            <input type="file" id="logo" accept="image/*">
+            <button onclick="deleteLogo()">删除Logo</button>
+            <br><img id="logo-img" style="display: none; width: 150px; height: 150px; object-fit: cover;" alt="Logo">
+        </div>
+
+        <!-- 标题区域 -->
+        <div class="input-group">
+            <label for="title">标题：</label>
+            <input type="text" id="title" value="砖筑美缝施工服务价格表" oninput="updateTitle()">
+        </div>
+
+        <!-- 产品区域 -->
+        <div class="product-section">
+            <div id="product-list"></div>
+            <button class="add-product-btn" onclick="addProduct()">增加产品</button>
+        </div>
+
+        <!-- 返回按钮 -->
+        <button class="back-btn" onclick="goBack()">返回上一步</button>
+
+        <!-- 发布按钮 -->
+        <button class="back-btn" onclick="publish()">发布</button>
+    </div>
+
+    <!-- 页脚区域 -->
+    <div class="footer">
+        全国服务热线：400-0176-106
+    </div>
+    <div class="footer-number">
+        <label for="footer-number">页脚编号：</label>
+        <input type="text" id="footer-number" value="编码" oninput="updateFooterNumber()">
+    </div>
+
+    <script>
+        let productCount = 0;
+        let logoBase64 = null;
+        let productImages = [];
+
+        // 上传Logo功能
+        document.getElementById('logo').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoBase64 = e.target.result; // 获取Logo的Base64数据
+                    document.getElementById('logo-img').src = logoBase64;
+                    document.getElementById('logo-img').style.display = 'inline';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function deleteLogo() {
+            document.getElementById('logo').value = '';
+            document.getElementById('logo-img').style.display = 'none';
+            logoBase64 = null;
+        }
+
+        // 更新标题
+        function updateTitle() {
+            const title = document.getElementById('title').value;
+            document.title = title;
+        }
+
+        // 增加产品区域
+        function addProduct() {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+            productDiv.innerHTML = `
+                <label for="price-${productCount}">套餐单价（元/延米）：</label><input type="text" id="price-${productCount}">
+                <label for="level-${productCount}">美缝师级别：</label><input type="text" id="level-${productCount}">
+                <label for="eco-${productCount}">环保等级：</label><input type="text" id="eco-${productCount}">
+                <label for="durability-${productCount}">耐用性：</label><input type="text" id="durability-${productCount}">
+                <label for="product-name-${productCount}">产品名称：</label><input type="text" id="product-name-${productCount}">
+                <label for="product-image-${productCount}">产品图片：</label>
+                <input type="file" id="product-image-${productCount}" accept="image/*" onchange="showProductImage(${productCount})">
+                <br><img id="product-img-${productCount}" style="display: none; width: 80px; height: 80px; object-fit: cover;">
+                <label for="material-${productCount}">材质/质感：</label><input type="text" id="material-${productCount}">
+                <label for="warranty-${productCount}">质保时间：</label><input type="text" id="warranty-${productCount}">
+                <button onclick="deleteProduct(${productCount})">删除产品</button>
+            `;
+            document.getElementById('product-list').appendChild(productDiv);
+            productCount++;
+        }
+
+        // 显示产品图片
+        function showProductImage(index) {
+            const fileInput = document.getElementById(`product-image-${index}`);
+            const file = fileInput.files[0];
+            const img = document.getElementById(`product-img-${index}`);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result;
+                img.style.display = 'inline';
+                productImages[index] = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 删除产品
+        function deleteProduct(index) {
+            const productDiv = document.getElementById(`product-name-${index}`).parentElement;
+            productDiv.remove();
+            productImages[index] = null;
+        }
+
+        // 返回上一步
+        function goBack() {
+            window.history.back();
+        }
+
+        // 发布按钮功能
+        // 修改 publish() 函数，确保 logoBase64 被传递到下载的 HTML 内容中
+        function publish() {
+            const title = document.getElementById('title').value;
+            let productList = '';
+            const logoImgTag = logoBase64 ? `<div class="logo-container"><img src="${logoBase64}" width="150" height="150" style="object-fit: cover;"></div>` : '';
+            
+            // 遍历产品区域，生成表格内容
+            const products = document.querySelectorAll('.product');
+            products.forEach((product, index) => {
+                const price = document.getElementById(`price-${index}`).value;
+                const level = document.getElementById(`level-${index}`).value;
+                const eco = document.getElementById(`eco-${index}`).value;
+                const durability = document.getElementById(`durability-${index}`).value;
+                const productName = document.getElementById(`product-name-${index}`).value;
+                const productImage = productImages[index] ? `<img src="${productImages[index]}" width="80" height="80" />` : '';
+                const material = document.getElementById(`material-${index}`).value;
+                const warranty = document.getElementById(`warranty-${index}`).value;
+        
+                productList += `
+                    <tr>
+                        <td>${price}</td>
+                        <td>${level}</td>
+                        <td>${eco}</td>
+                        <td>${durability}</td>
+                        <td>${productName}</td>
+                        <td>${productImage}</td>
+                        <td>${material}</td>
+                        <td>${warranty}</td>
+                    </tr>
+                `;
+            });
+        
+            // 构造完整的 HTML 内容
+            const htmlContent = `
+                <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>${title}</title>
+                        <style>
+                            body {
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                                background-color: #f4f7fb;
+                                color: #333;
+                            }
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                                text-align: center;
+                                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                            }
+                            th, td {
+                                padding: 12px 15px;
+                                border: 1px solid #ddd;
+                                vertical-align: middle;
+                                font-size: 14px;
+                            }
+                            th {
+                                background-color: #007bff;
+                                color: white;
+                                font-weight: bold;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #f9f9f9;
+                            }
+                            tr:nth-child(odd) {
+                                background-color: #f1f1f1;
+                            }
+                            td img {
+                                width: 80px;
+                                height: 80px;
+                                object-fit: cover;
+                                border-radius: 4px;
+                            }
+                            footer {
+                                text-align: center;
+                                font-size: 22px;
+                                color: black;
+                            }
+                            .footer-number {
+                                font-size: 10px;
+                                text-align: right;
+                                color: #777;
+                                margin-top: 10px;
+                            }
+                            .logo-container {
+                                text-align: center;
+                                margin-bottom: 20px;
+                            }
+                            .logo-container img {
+                                width: 150px;
+                                height: 150px;
+                                object-fit: cover;
+                                border-radius: 4px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${logoImgTag}  <!-- 放置 logo 图片 -->
+                        <h1 style="text-align: center;">${title}</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>套餐单价（元/延米）</th>
+                                    <th>美缝师级别</th>
+                                    <th>环保等级</th>
+                                    <th>耐用性</th>
+                                    <th>产品名称</th>
+                                    <th>产品图片</th>
+                                    <th>材质/质感</th>
+                                    <th>质保时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${productList}
+                            </tbody>
+                        </table>
+                        <footer>
+                            <p>全国服务热线：400-0176-106</p>
+                        </footer>
+                        <div class="footer-number">
+                            <p>页脚编号：<span id="footer-number">${document.getElementById('footer-number').value}</span></p>
+                        </div>
+                    </body>
+                </html>
+            `;
+        
+            // 创建 Blob 对象并触发下载
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '任务发布页面.html';
+            link.click();
+        }
+
+    </script>
+</body>
+</html>
