@@ -203,7 +203,7 @@
         <!-- 标题区域 -->
         <div class="input-group">
             <label for="title">标题：</label>
-            <input type="text" id="title" value="美缝施工服务价格表" oninput="updateTitle()">
+            <input type="text" id="title" value="" oninput="updateTitle()">
         </div>
 
         <!-- 产品区域 -->
@@ -221,11 +221,12 @@
 
     <!-- 页脚区域 -->
     <div class="footer">
-        全国服务热线：400-0176-106
+        <input type="text" id="footer-content" value="" placeholder="请输入页脚内容" oninput="updateFooterContent()">
     </div>
+
     <div class="footer-number">
         <label for="footer-number">编号：</label>
-        <input type="text" id="footer-number" value="编码" oninput="updateFooterNumber()">
+        <input type="text" id="footer-number" value="" oninput="updateFooterNumber()">
     </div>
 
     <script>
@@ -305,6 +306,12 @@
         function goBack() {
             window.history.back();
         }
+		// 更新页脚内容
+		function updateFooterContent() {
+		    const footerContent = document.getElementById('footer-content').value;
+		    document.querySelector('.footer p').innerText = footerContent;
+		}
+
 
         // 发布按钮功能
         // 修改 publish() 函数，确保 logoBase64 被传递到下载的 HTML 内容中
@@ -313,6 +320,10 @@
             let productList = '';
             const logoImgTag = logoBase64 ? `<div class="logo-container"><img src="${logoBase64}" width="150" height="150" style="object-fit: cover;"></div>` : '';
             
+		 // 获取页脚内容
+		    const footerContent = document.getElementById('footer-content').value;	
+			
+			
             // 遍历产品区域，生成表格内容
             const products = document.querySelectorAll('.product');
             products.forEach((product, index) => {
@@ -428,7 +439,7 @@
                             </tbody>
                         </table>
                         <footer>
-                            <p>全国服务热线：400-0176-106</p>
+                            <p>${footerContent}</p> <!-- 动态显示页脚内容 -->
                         </footer>
                         <div class="footer-number">
                             <p>编号：<span id="footer-number">${document.getElementById('footer-number').value}</span></p>
